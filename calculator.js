@@ -12,7 +12,12 @@ function appendValue(value) {
     display.value = ''; // Clear the display to start a new number
   }
 
-  display.value += value;
+  // If the result is shown and the user clicks a number, reset the display
+  if (display.value === 'Error' || display.value === '') {
+    display.value = value;
+  } else {
+    display.value += value;
+  }
 }
 
 // Check if the character is an operator
