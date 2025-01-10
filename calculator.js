@@ -2,20 +2,47 @@ let display = document.getElementById('display');
 
 // Append values to the display
 function appendValue(value) {
+  // If last character is an operator and a new operator is pressed, do nothing
+  if (isOperator(value) && isOperator(display.value.slice(-1))) {
+    return; // Prevent consecutive operators
+  }
+
+  // If the display has an operator at the end, and user presses a number, clear the display for a new entry
+  if (isOperator(display.value.slice(-1)) && !isNaN(value)) {
+    display.value = ''; // Clear the display to start a new number
+  }
+
   display.value += value;
+}
+
+// Check if the character is an operator
+function isOperator(character) {
+  return ['+', '-', '*', '/', '%'].includes(character);
 }
 
 // Perform basic arithmetic operations
 function operation(op) {
+  // Prevent appending multiple operators consecutively
+  if (display.value === '' || isOperator(display.value.slice(-1))) {
+    return; // Don't append if it's empty or if the last character is an operator
+  }
   display.value += ` ${op} `;
 }
 
 // Calculate the result
 function calculate() {
   try {
-    display.value = eval(display.value.replace('÷', '/').replace('×', '*'));
+    let expression = display.value.trim();
+    
+    // Remove trailing operators if any
+    if (isOperator(expression.slice(-1))) {
+      expression = expression.slice(0, -1); // Remove last operator
+    }
+
+    // Evaluate the expression
+    display.value = eval(expression.replace('÷', '/').replace('×', '*'));
   } catch {
-    display.value = 'Error';
+    display.value = 'Error'; // Handle errors in expression
   }
 }
 
@@ -61,6 +88,6 @@ function scientific(func, arg = null) {
     }
     display.value = result;
   } catch {
-    display.value = 'Error';
+    display.value = 'Error'; // Handle invalid inputs for scientific functions
   }
 }
