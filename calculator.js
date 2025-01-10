@@ -2,7 +2,7 @@ let display = document.getElementById('display');
 
 // Append values to the display
 function appendValue(value) {
-  // If last character is an operator and a new operator is pressed, do nothing
+  // Check if last character is an operator and prevent adding another operator consecutively
   if (isOperator(value) && isOperator(display.value.slice(-1))) {
     return; // Prevent consecutive operators
   }
@@ -39,7 +39,7 @@ function calculate() {
       expression = expression.slice(0, -1); // Remove last operator
     }
 
-    // Evaluate the expression
+    // Now evaluate the expression
     display.value = eval(expression.replace('÷', '/').replace('×', '*'));
   } catch {
     display.value = 'Error'; // Handle errors in expression
