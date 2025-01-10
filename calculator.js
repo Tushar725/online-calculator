@@ -31,14 +31,14 @@ function operation(op) {
 
 // Calculate the result
 function calculate() {
-  try {
-    let expression = display.value.trim();
-    
-    // Remove trailing operators if any
-    if (isOperator(expression.slice(-1))) {
-      expression = expression.slice(0, -1); // Remove last operator
-    }
+  let expression = display.value.trim();
+  
+  // Check if the expression ends with an operator and remove it before calculating
+  if (isOperator(expression.slice(-1))) {
+    expression = expression.slice(0, -1); // Remove last operator if present
+  }
 
+  try {
     // Now evaluate the expression
     display.value = eval(expression.replace('÷', '/').replace('×', '*'));
   } catch {
