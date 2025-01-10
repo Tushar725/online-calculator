@@ -2,20 +2,20 @@ let display = document.getElementById('display');
 
 // Append values to the display
 function appendValue(value) {
-  // Check if last character is an operator and prevent adding another operator consecutively
-  if (isOperator(value) && isOperator(display.value.slice(-1))) {
-    return; // Prevent consecutive operators
-  }
-
-  // If the display has an operator at the end, and user presses a number, clear the display for a new entry
-  if (isOperator(display.value.slice(-1)) && !isNaN(value)) {
-    display.value = ''; // Clear the display to start a new number
-  }
-
   // If the result is shown and the user clicks a number, reset the display
   if (display.value === 'Error' || display.value === '') {
-    display.value = value;
+    display.value = value; // Reset the display to the new number
   } else {
+    // Check if last character is an operator and prevent adding another operator consecutively
+    if (isOperator(value) && isOperator(display.value.slice(-1))) {
+      return; // Prevent consecutive operators
+    }
+
+    // If the display has an operator at the end, and user presses a number, clear the display for a new entry
+    if (isOperator(display.value.slice(-1)) && !isNaN(value)) {
+      display.value = ''; // Clear the display to start a new number
+    }
+
     display.value += value;
   }
 }
