@@ -1,66 +1,86 @@
-let display = document.getElementById('display');
-
-// Append values to the display
-function appendValue(value) {
-  display.value += value;
-}
-
-// Perform basic arithmetic operations
-function operation(op) {
-  display.value += ` ${op} `;
-}
-
-// Calculate the result
-function calculate() {
-  try {
-    display.value = eval(display.value.replace('÷', '/').replace('×', '*'));
-  } catch {
-    display.value = 'Error';
-  }
-}
-
-// Clear the display
-function clearDisplay() {
-  display.value = '';
-}
-
-// Delete the last character
-function backspace() {
-  display.value = display.value.slice(0, -1);
-}
-
-// Perform scientific calculations
-function scientific(func, arg = null) {
-  try {
-    let value = parseFloat(display.value) || 0;
-    let result;
-    switch (func) {
-      case 'sin':
-        result = Math.sin((value * Math.PI) / 180); // Convert to radians
-        break;
-      case 'cos':
-        result = Math.cos((value * Math.PI) / 180); // Convert to radians
-        break;
-      case 'tan':
-        result = Math.tan((value * Math.PI) / 180); // Convert to radians
-        break;
-      case 'log':
-        result = Math.log10(value);
-        break;
-      case 'sqrt':
-        result = Math.sqrt(value);
-        break;
-      case 'pow':
-        result = Math.pow(value, arg);
-        break;
-      case 'exp':
-        result = Math.exp(value);
-        break;
-      default:
-        result = 'Error';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scientific Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
     }
-    display.value = result;
-  } catch {
-    display.value = 'Error';
-  }
-}
+    .calculator {
+      display: inline-block;
+      margin-top: 50px;
+      background: #f4f4f4;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    .display {
+      width: 100%;
+      height: 40px;
+      margin-bottom: 10px;
+      text-align: right;
+      font-size: 18px;
+      padding: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 60px;
+      height: 40px;
+      margin: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .scientific {
+      background-color: #0078D7;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <input type="text" class="display" id="display" readonly>
+    <br>
+    <!-- Standard Calculator Buttons -->
+    <button onclick="appendValue('7')">7</button>
+    <button onclick="appendValue('8')">8</button>
+    <button onclick="appendValue('9')">9</button>
+    <button onclick="operation('/')">÷</button>
+    <br>
+    <button onclick="appendValue('4')">4</button>
+    <button onclick="appendValue('5')">5</button>
+    <button onclick="appendValue('6')">6</button>
+    <button onclick="operation('*')">×</button>
+    <br>
+    <button onclick="appendValue('1')">1</button>
+    <button onclick="appendValue('2')">2</button>
+    <button onclick="appendValue('3')">3</button>
+    <button onclick="operation('-')">−</button>
+    <br>
+    <button onclick="appendValue('0')">0</button>
+    <button onclick="appendValue('.')">.</button>
+    <button onclick="calculate()">=</button>
+    <button onclick="operation('+')">+</button>
+    <br>
+    <button onclick="clearDisplay()">C</button>
+    <button onclick="backspace()">←</button>
+    <br>
+    <!-- Scientific Buttons -->
+    <button class="scientific" onclick="scientific('sin')">sin</button>
+    <button class="scientific" onclick="scientific('cos')">cos</button>
+    <button class="scientific" onclick="scientific('tan')">tan</button>
+    <button class="scientific" onclick="scientific('log')">log</button>
+    <br>
+    <button class="scientific" onclick="scientific('sqrt')">√</button>
+    <button class="scientific" onclick="scientific('pow', 2)">x²</button>
+    <button class="scientific" onclick="scientific('pow', 3)">x³</button>
+    <button class="scientific" onclick="scientific('exp')">eˣ</button>
+  </div>
+
+  <script src="calculator.js"></script>
+</body>
+</html>
