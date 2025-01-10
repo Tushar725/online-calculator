@@ -1,56 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-    
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A free online calculator for basic arithmetic calculations.">
-    <meta name="keywords" content="calculator, online calculator, arithmetic, math">
-<meta name="author" content="TB">
+let display = document.getElementById('display');
 
-    <title>Online Calculator</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
-        input, button { font-size: 18px; margin: 5px; padding: 10px; }
-    </style>
-</head>
-<body>
-    <h1>Online Calculator</h1>
-    <input type="text" id="result" readonly>
-    <br>
-    <button onclick="clearResult()">C</button>
-    <button onclick="appendValue('1')">1</button>
-    <button onclick="appendValue('2')">2</button>
-    <button onclick="appendValue('3')">3</button>
-    <button onclick="appendValue('+')">+</button>
-    <br>
-    <button onclick="appendValue('4')">4</button>
-    <button onclick="appendValue('5')">5</button>
-    <button onclick="appendValue('6')">6</button>
-    <button onclick="appendValue('-')">-</button>
-    <br>
-    <button onclick="appendValue('7')">7</button>
-    <button onclick="appendValue('8')">8</button>
-    <button onclick="appendValue('9')">9</button>
-    <button onclick="appendValue('*')">*</button>
-    <br>
-    <button onclick="appendValue('0')">0</button>
-    <button onclick="calculateResult()">=</button>
-    <button onclick="appendValue('/')">/</button>
-    <script>
-        function appendValue(value) {
-            document.getElementById('result').value += value;
-        }
-        function clearResult() {
-            document.getElementById('result').value = '';
-        }
-        function calculateResult() {
-            try {
-                document.getElementById('result').value = eval(document.getElementById('result').value);
-            } catch {
-                document.getElementById('result').value = 'Error';
-            }
-        }
-    </script>
-</body>
-</html>
+// Append values to the display
+function appendValue(value) {
+  display.value += value;
+}
+
+// Perform basic arithmetic operations
+function operation(op) {
+  display.value += ` ${op} `;
+}
+
+// Calculate the result
+function calculate() {
+  try {
+    display.value = eval(display.value.replace('÷', '/').replace('×', '*'));
+  } catch {
+    display.value = 'Error';
+  }
+}
+
+// Clear the display
+function clearDisplay() {
+  display.value = '';
+}
+
+// Delete the last character
+function backspace() {
+  display.value = display.value.slice(0, -1);
+}
+
+// Perform scientific calculations
+function scientific(func, arg = null) {
+  try {
+    let value = parseFloat(display.value) || 0;
+    let result;
+    switch (func) {
+      case 'sin':
+        result = Math.sin((value * Math.PI) / 180); // Convert to radians
+        break;
+      case 'cos':
+        result = Math.cos((value * Math.PI) / 180); // Convert to radians
+        break;
+      case 'tan':
+        result = Math.tan((value * Math.PI) / 180); // Convert to radians
+        break;
+      case 'log':
+        result = Math.log10(value);
+        break;
+      case 'sqrt':
+        result = Math.sqrt(value);
+        break;
+      case 'pow':
+        result = Math.pow(value, arg);
+        break;
+      case 'exp':
+        result = Math.exp(value);
+        break;
+      default:
+        result = 'Error';
+    }
+    display.value = result;
+  } catch {
+    display.value = 'Error';
+  }
+}
